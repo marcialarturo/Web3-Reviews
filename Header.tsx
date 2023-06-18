@@ -37,18 +37,17 @@ export const Header = () => {
   const [ensName, setEnsName] = useState("");
 
   useEffect(() => {
-    getESNResolve();
+    resolverENS();
   }, []);
 
-  const getESNResolve = async () => {
+  const resolverENS= async () => {
     try {
       const { ethereum } = window;
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
-        // const address = await signer.getAddress()
-        const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+        const address = await signer.getAddress()
         const ens_name = await provider.lookupAddress(address);
         if (ens_name !== null) {
           setEnsName(ens_name);
